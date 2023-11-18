@@ -1,0 +1,36 @@
+apiVersion: appps/v1
+kind: Deployment
+metadata:
+  name: notification
+  labels:
+    app: notification
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: notification
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 8
+  template:
+    matadata:
+      labels:
+         app: notification
+  strategy:
+     type: RollingUpdate
+     rollingUpdate:
+       maxSurge: 8
+  template:
+     metadata:
+       labels:
+          app: notification
+     spec:
+       containers:
+         - name: notification
+           image: maurovas/notification
+           envFrom:
+             - configMapRef:
+                 name: notification-configmap
+             - secretRef:
+                 name: notification-secret

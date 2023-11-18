@@ -1,0 +1,36 @@
+apiVersion: appps/v1
+kind: Deployment
+metadata:
+  name: converter
+  labels:
+    app: converter
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: converter
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 8
+  template:
+    matadata:
+      labels:
+         app: converter
+  strategy:
+     type: RollingUpdate
+     rollingUpdate:
+       maxSurge: 8
+  template:
+     metadata:
+       labels:
+          app: converter
+     spec:
+       containers:
+         - name: converter
+           image: maurovas/converter
+           envFrom:
+             - configMapRef:
+                 name: converter-configmap
+             - secretRef:
+                 name: converter-secret
